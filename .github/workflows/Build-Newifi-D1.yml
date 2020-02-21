@@ -87,7 +87,7 @@ jobs:
         run: |
           cd $CONFIG_PATH
           make download -j8
-          find .$CONFIG_PATH/dl/ -size -1024c -exec rm -f {} \;
+          find $CONFIG_PATH/dl/ -size -1024c -exec rm -f {} \;
           df -h
 
       - name: Multi-thread compile
