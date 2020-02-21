@@ -14,7 +14,7 @@ on:
     branches: 
       - master
     paths:
-      - "Newifi-D1.config"
+      - "Newifi-D1.config" 
   # schedule:
   #   - cron: 0 20 * * *
   # release:
