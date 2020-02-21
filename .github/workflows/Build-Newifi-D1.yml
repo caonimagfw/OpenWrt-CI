@@ -85,8 +85,9 @@ jobs:
           CONFIG_FILE: "Newifi-D1.config"
           CONFIG_PATH: "Newifi-D1"
         run: |
-          cd $CONFIG_PATH && make download -j8
-          find.$CONFIG_PATH/dl/ -size -1024c -exec rm -f {} \;
+          cd $CONFIG_PATH
+          make download -j8
+          find .$CONFIG_PATH/dl/ -size -1024c -exec rm -f {} \;
           df -h
 
       - name: Multi-thread compile
