@@ -1,0 +1,23 @@
+dlpackage为软件包脚本
+happymake为配置脚本
+打(*)为最新变动
+
+软件包：
+koolproxyR 广告屏蔽
+adguardhome 广告屏蔽
+serverchan 路由监控
+锐捷及依赖 校园网
+mwol 远程开机无需公网
+ngrokc 内网穿透
+unblockneteasemusic 稍复杂的网易云音乐
+openclash fq
+xx魔改及依赖 fq
+passwall及依赖 fq 
+
+主题包：
+argon
+argon-mc
+atmaterial
+rosy
+darkmatter
+opentomcat (*)
