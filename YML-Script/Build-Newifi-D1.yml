@@ -78,6 +78,7 @@ jobs:
           # 使用配置文件
           cat $CONFIG_FILE common.config > $CONFIG_PATH/.config
           cd $CONFIG_PATH
+          sed -i 's/^[ \t]*//g' ./.config
           make defconfig
 
       - name: Make download
