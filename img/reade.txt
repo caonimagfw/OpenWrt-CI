@@ -1,0 +1,106 @@
+
+0. soft openwrt 
+
+	vm-img:
+	VBoxManage convertfromraw --format VDI [filename].img [filename].vdi
+
+	vm-vmdk
+
+	brew install qemu
+	qemu-img convert -f raw -O vmdk ~/Downloads/openwrt-18.06.0-x86-64-combined-ext4.img openwrt-18.06.0-x86-64-combined-ext4.vmdk
+
+	qemu-img convert -f raw -O vmdk /Users/jimmy/Documents/GitHub/OpenWrt-CI/img/openwrt-18.06.0-x86-64-combined-ext4.img openwrt-18.06.0-x86-64-combined-ext4.vmdk
+
+	https://archive.openwrt.org/releases/18.06.0/targets/x86/64/openwrt-18.06.0-x86-64-combined-ext4.img.gz
+
+	实体机需要双网卡，实现wan和lan，我这里使用wlan连接外网
+	eth0 -> wan （连接外网）
+	eth1 -> lan (dhcp服务端)
+	etc/config/network:
+		config interface 'loopback'
+			option ifname 'lo'
+			option proto 'static'
+			option ipaddr '127.0.0.1'
+			option netmask '255.0.0.0'
+
+		config globals 'globals'
+			option ula_prefix 'fdb0:11a4:aa83::/48'
+
+		config interface 'lan'
+			option type 'bridge'
+			option ifname 'eth0'
+			option proto 'static'
+			option ipaddr '10.0.0.1'
+			option netmask '255.255.255.0'
+			option ip6assign '60'
+
+		config interface 'wan'
+			option ifname 'eth1'
+			option proto 'dhcp'
+
+		config interface 'wan6'
+			option ifname 'eth1'
+			option proto 'dhcpv6'
+
+
+
+1. some resource and package 
+
+	openwrt site:
+		https://downloads.openwrt.org/releases/18.06.7/
+		https://downloads.openwrt.org/releases/19.07.1/
+
+		For X86
+			https://downloads.openwrt.org/releases/19.07.1/targets/x86/64/openwrt-imagebuilder-19.07.1-x86-64.Linux-x86_64.tar.xz
+
+		For 7621
+																				 openwrt-imagebuilder-19.07.2-x86-64.Linux-x86_64.tar.xz
+			https://downloads.openwrt.org/releases/19.07.1/targets/ramips/mt7621/openwrt-imagebuilder-19.07.1-ramips-mt7621.Linux-x86_64.tar.xz
+
+2. some code 
+
+		# get img 
+		site  = https://downloads.openwrt.org/releases/
+		version = 18.06.7
+
+
+
+		https://downloads.openwrt.org/releases/18.06.7/targets/x86/64/openwrt-imagebuilder-18.06.7-x86-64.Linux-x86_64.tar.xz
+
+
+		tar -xvjf openwrt-imagebuilder-18.06.7-x86-64.Linux-x86_64.tar.xz
+		cd openwrt-imagebuilder-18.06.7-x86-64.Linux-x86_64.tar.xz
+
+
+
+		xz -d openwrt-imagebuilder-18.06.7-x86-64.Linux-x86_64.tar.xz
+		tar xvf openwrt-imagebuilder-18.06.7-x86-64.Linux-x86_64.tar
+		apt-get install make 
+		# install gcc 
+		apt-get install gcc 
+		apt-get install g++
+		apt-get install Git
+		apt-get install unzip
+		apt-get install libncurses5-dev libncursesw5-dev
+
+		 base-files libc libgcc busybox dropbear mtd uci opkg netifd fstools uclient-fetch logd partx-utils mkf2fs e2fsprogs kmod-button-hotplug kmod-e1000e kmod-e1000 kmod-r8169 kmod-igb dnsmasq iptables ip6tables ppp ppp-mod-pppoe firewall odhcpd-ipv6only odhcp6c kmod-ipt-offload
+
+
+		make image PROFILE=XXX PACKAGES="pkg1 pk2 -pkg3 -pkg4" FILES=files/
+
+		https://downloads.openwrt.org/releases/18.06.7/packages/x86_64/luci/
+
+
+		https://downloads.openwrt.org/releases/18.06.7/packages/x86_64/
+
+		base/	-	Thu Feb 27 14:05:30 2020
+		luci/	-	Thu Feb 27 14:05:30 2020
+		packages/	-	Thu Feb 27 14:05:30 2020
+		routing/	-	Thu Feb 27 14:05:30 2020
+		telephony/
+
+make image PROFILE=Generic PACKAGES="luci luci-sgi-uhttpd luci-app-qos luci-app-upnp luci-proto-ipv6" FILES=files/
+
+		make image PROFILE=x86_64 PACKAGES="luci luci-i18n-chinese luci-sgi-uhttpd luci-app-qos luci-app-upnp luci-proto-ipv6" FILES=files/
+
+		export http_proxy=http://10.0.2.2:1082
