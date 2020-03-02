@@ -3,6 +3,28 @@
 
 	vm-img:
 	VBoxManage convertfromraw --format VDI [filename].img [filename].vdi
+	VBoxManage convertfromraw --format VDI openwrt-18.06.0-x86-64-combined-ext4.vdi.img C:\bai\git\OpenWrt-CI\img\openwrt-18.06.0-x86-64-combined-ext4.vdi
+	VBoxManage convertfromraw --format VDI openwrt-18.06.0-x86-64-ext4.img C:\bai\git\OpenWrt-CI\img\openwrt-18.06.0-x86-64-combined-ext4.vdi
+	dd if=openwrt-18.06.0-x86-64-combined-ext4.img of=openwrt-18.06.0-x86-64-ext4.img bs=256000 conv=sync
+	dd if=openwrt-18.06.7-x86-64-combined-ext4.img of=openwrt-18.06.7-x86-64-ext4.img bs=256000 conv=sync
+ 	convertfromraw --format VDI openwrt-18.06.7-x86-64-ext4.img C:\bai\git\OpenWrt-CI\img\openwrt-18.06.7-x86-64-combined-ext4.vdi
+
+
+	2、virtualbox磁盘文件==》vmware磁盘文件
+	需要两次转换哦，首先：
+	vboxmanage clonehd openwrt-18.06.0-x86-64-combined-ext4.vdi openwrt-18.06.0-x86-64-combined-ext4.vmdk –format VMDK
+	然后：
+	vmware-vdiskmanager -r openwrt-18.06.0-x86-64-combined-ext4.vmdk -t 0 openwrt-18.06.0-x86-64-combined-ext4-2.vmdk
+
+	internalcommands sethduuid openwrt-18.06.0-x86-64-combined-ext4.vdi 
+
+	其中的X可以用
+	0 : 做成單一檔案(不預先配置)
+	1 : 切成2GB為一個檔案
+	2 : 預先配置檔案大小
+	3 : 預先配置以2GB為單位的檔案群
+	4 : 預先配置成ESX的格式
+	來代替，這裡我們可以直接使用”0″
 
 	vm-vmdk
 
