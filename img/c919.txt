@@ -74,5 +74,10 @@ target/linux/ar71xx(此处替换成自己芯片信号)/image/Makefile
 
 完成以上步骤后可以回到终端，执行make命令生成固件，如：
 
-	make image PROFILE=WL500GP PACKAGES="luci luci-i18n-chinese luci-proto-ipv6 luci-sgi-uhttpd" FILES=files/
+	make image PROFILE=x86 PACKAGES="luci luci-i18n-chinese luci-proto-ipv6 luci-sgi-uhttpd" FILES=files/
+	make image PROFILE=Generic PACKAGES="luci luci-i18n-chinese luci-proto-ipv6 luci-sgi-uhttpd" FILES=files/
+luci-i18n-base-zh-cn
+
+make image PROFILE=Generic PACKAGES="luci luci-i18n-base luci-i18n-base-zh-cn luci-proto-ipv6 luci-app-uhttpd luci-app-wifischedule luci-app-adblock luci-i18n-adblock-zh-cn luci-app-shadowsocks-libev luci-theme-material luci-theme-bootstrap" FILES=files/
+
 如果没有出现错误，就可以在/bin/ar71xx/下找到你相应的bin文件了
